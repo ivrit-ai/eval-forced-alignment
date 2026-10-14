@@ -34,6 +34,21 @@ from pathlib import Path
 
 warnings.filterwarnings("ignore")
 
+MODELS = {
+    "buckeye": {
+        "description": "Multilingual Word Aligner, buckeye checkpoint (arXiv 2606.10675)",
+        "model_link": "https://github.com/MLSpeech/Multilingual-Word-Aligner",
+        "github_link": "https://github.com/MLSpeech/Multilingual-Word-Aligner",
+        "license": "cc-by-nc-4.0",
+    },
+    "timit": {
+        "description": "Multilingual Word Aligner, timit checkpoint (arXiv 2606.10675)",
+        "model_link": "https://github.com/MLSpeech/Multilingual-Word-Aligner",
+        "github_link": "https://github.com/MLSpeech/Multilingual-Word-Aligner",
+        "license": "cc-by-nc-4.0",
+    },
+}
+
 
 def done_ids(out: Path) -> set[str]:
     """Clips already aligned, plus ones that failed before. A failure here is deterministic

@@ -31,6 +31,21 @@ SAMPLE_RATE = 16000
 _WS = re.compile(r"\s+")
 _HEBREW = re.compile(r"[֐-׿]")
 
+MODELS = {
+    "imvladikon/wav2vec2-xls-r-300m-hebrew": {
+        "description": "CTC forced alignment — imvladikon/wav2vec2-xls-r-300m-hebrew",
+        "model_link": "https://huggingface.co/imvladikon/wav2vec2-xls-r-300m-hebrew",
+        "github_link": None,
+        "license": None,
+    },
+    "MahmoudAshraf/mms-300m-1130-forced-aligner": {
+        "description": "CTC forced alignment — Meta MMS, 1,130 languages, romanized",
+        "model_link": "https://huggingface.co/MahmoudAshraf/mms-300m-1130-forced-aligner",
+        "github_link": "https://github.com/facebookresearch/fairseq",
+        "license": "cc-by-nc-4.0",
+    },
+}
+
 
 def clean(text: str) -> str:
     return _WS.sub(" ", unicodedata.normalize("NFC", text)).strip()

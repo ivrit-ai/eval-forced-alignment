@@ -49,6 +49,9 @@ class Aligner:
     env_vars: dict[str, str] = field(default_factory=dict)
     needs: list[str] = field(default_factory=list)
     description: str = ""
+    model_link: str | None = None
+    github_link: str | None = None
+    license: str | None = None
 
 
 @dataclass
@@ -57,6 +60,9 @@ class Derived:
     source: str
     correction: Path
     description: str = ""
+    model_link: str | None = None
+    github_link: str | None = None
+    license: str | None = None
 
 
 def load(path: Path = ROOT / "aligners.toml") -> tuple[dict[str, Aligner], dict[str, Derived]]:
@@ -65,12 +71,24 @@ def load(path: Path = ROOT / "aligners.toml") -> tuple[dict[str, Aligner], dict[
         name: Aligner(name=name, runner=ROOT / "aligners" / a["runner"], env=a["env"],
                       args=list(a.get("args", [])), devices=list(a.get("devices", ["cpu"])),
                       env_vars=dict(a.get("env_vars", {})), needs=list(a.get("needs", [])),
-                      description=a.get("description", ""))
+                      description=a.get("description", ""),
+                      model_link=a.get("model_link") or a.get("model_url"),
+                      github_link=a.get("github_link") or a.get("github_url"),
+                      license=a.get("license"))
         for name, a in raw.get("aligners", {}).items()
     }
     derived = {
         name: Derived(name=name, source=d["from"], correction=ROOT / d["correction"],
-                      description=d.get("description", ""))
+                      description=d.get("description", ""),
+                      model_link=d.get("model_link") or d.get("model_url") or (
+                          aligners[d["from"]].model_link if d.get("from") in aligners else None
+                      ),
+                      github_link=d.get("github_link") or d.get("github_url") or (
+                          aligners[d["from"]].github_link if d.get("from") in aligners else None
+                      ),
+                      license=d.get("license") or (
+                          aligners[d["from"]].license if d.get("from") in aligners else None
+                      ))
         for name, d in raw.get("derived", {}).items()
     }
     return aligners, derived

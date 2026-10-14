@@ -32,6 +32,15 @@ from pathlib import Path
 
 warnings.filterwarnings("ignore")
 
+MODELS = {
+    "ivrit-ai/whisper-large-v3-turbo-ct2": {
+        "description": "stable-ts align on faster-whisper — ivrit.ai whisper-large-v3-turbo",
+        "model_link": "https://huggingface.co/ivrit-ai/whisper-large-v3-turbo-ct2",
+        "github_link": "https://github.com/jianfch/stable-ts",
+        "license": "apache-2.0",
+    },
+}
+
 
 def bare(word: str) -> str:
     return re.sub(r"[^\w]", "", unicodedata.normalize("NFC", word))

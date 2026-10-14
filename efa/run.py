@@ -102,6 +102,10 @@ def run_aligner(a: registry.Aligner, how: dict, run: Path) -> int:
         "platform": how["probe"].get("platform"), "host": socket.gethostname(),
         "updated_at": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "exit_code": code,
+        "description": a.description,
+        "model_link": a.model_link,
+        "github_link": a.github_link,
+        "license": a.license,
     }
     (run / "labels" / f"{a.name}.meta.json").write_text(json.dumps(meta, indent=2), encoding="utf-8")
     return code
@@ -226,7 +230,11 @@ def main() -> None:
         elif st.get("status") in (None, "ok"):
             st.update(status="failed" if failed else "no-output",
                       reason="every clip failed" if failed else "ran, but wrote nothing")
-        st["description"] = (aligners.get(name) or derived.get(name)).description
+        obj = aligners.get(name) or derived.get(name)
+        st["description"] = (obj.description if obj else "") or meta.get("description", "")
+        st["model_link"] = (obj.model_link if obj else None) or meta.get("model_link")
+        st["github_link"] = (obj.github_link if obj else None) or meta.get("github_link")
+        st["license"] = (obj.license if obj else None) or meta.get("license")
         st["aligned"] = len(rows)
         st["missing"] = len(keys) - len(rows) - len(failed)
         st["failed"] = [{"id": r["id"], "why": r.get("why", "")} for r in failed]
@@ -254,6 +262,14 @@ def main() -> None:
     result = scoring.evaluate(entries, marks, exclude=set(args.exclude),
                               pair_labels=pair_labels, draws=args.draws)
     scoring.report(result)
+
+    for source, stats in result.get("aligners", {}).items():
+        st_obj = status.get(source, {})
+        obj = aligners.get(source) or derived.get(source)
+        stats["description"] = st_obj.get("description") or (obj.description if obj else "")
+        stats["model_link"] = st_obj.get("model_link") if "model_link" in st_obj else (obj.model_link if obj else None)
+        stats["github_link"] = st_obj.get("github_link") if "github_link" in st_obj else (obj.github_link if obj else None)
+        stats["license"] = st_obj.get("license") if "license" in st_obj else (obj.license if obj else None)
 
     # 6. the self-contained result
     result = {

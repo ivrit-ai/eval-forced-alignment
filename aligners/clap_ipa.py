@@ -45,6 +45,15 @@ _PUNCT = re.compile(r"[^\w֐-׿']+", re.UNICODE)
 # more is a question for the data, so it is a flag rather than a decision.
 COMMON = {"ʁ": "r", "χ": "x", "ɡ": "g"}
 
+MODELS = {
+    "base": {
+        "description": "IPA-Aligner (CLAP-IPA), Phonikud IPA, phone-level DTW",
+        "model_link": "https://huggingface.co/anyspeech/ipa-align-base-phone",
+        "github_link": "https://github.com/lingjzhu/clap-ipa",
+        "license": "mit",
+    },
+}
+
 
 def done_ids(out: Path) -> set[str]:
     ids = set()

@@ -33,6 +33,13 @@ sys.path.insert(0, str(ROOT))
 
 HOP = 0.005
 
+MODEL_INFO = {
+    "description": "MMS, then a shift per letter class and, before a pause, the end extended to where the sound stops",
+    "model_link": "https://huggingface.co/MahmoudAshraf/mms-300m-1130-forced-aligner",
+    "github_link": "https://github.com/facebookresearch/fairseq",
+    "license": "cc-by-nc-4.0",
+}
+
 
 def load_bf():
     spec = importlib.util.spec_from_file_location("bf", ROOT / "correction" / "boundary_fix.py")

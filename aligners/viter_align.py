@@ -53,6 +53,21 @@ sys.path.insert(0, str(HERE))
 
 from viter_setup import clean_word, split_graphemes, split_phones  # noqa: E402
 
+MODELS = {
+    "hebrew_graphemes": {
+        "description": "MFA recipe via viter, pretrained hebrew_graphemes model (thewh1teagle/viter, models-v1.0)",
+        "model_link": "https://github.com/thewh1teagle/viter/releases/tag/models-v1.0",
+        "github_link": "https://github.com/thewh1teagle/viter",
+        "license": "mit",
+    },
+    "knesset": {
+        "description": "MFA recipe via viter, acoustic model trained on Knesset audio",
+        "model_link": None,
+        "github_link": "https://github.com/thewh1teagle/viter",
+        "license": "mit",
+    },
+}
+
 
 def done_ids(out: Path) -> set[str]:
     ids = set()

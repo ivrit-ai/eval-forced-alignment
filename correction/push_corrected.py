@@ -22,6 +22,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+MODEL_INFO = {
+    "description": "MMS, then a shift per letter class and, before a pause, the end extended to where the sound stops",
+    "model_link": "https://huggingface.co/MahmoudAshraf/mms-300m-1130-forced-aligner",
+    "github_link": "https://github.com/facebookresearch/fairseq",
+    "license": "cc-by-nc-4.0",
+}
+
 
 def load(name, path):
     spec = importlib.util.spec_from_file_location(name, path)

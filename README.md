@@ -183,6 +183,9 @@ that its interpreter has wins, unless `--device` forces one.
        needs = ["EFA_SOME_VAR"]         # optional: env vars that must be set, substituted into args as {NAME}
        env_vars = { SOME = "value" }    # optional: extra environment for the subprocess
        description = "shown in the viewer beside the aligner's name"
+       model_link = "https://..."       # optional: where the model is hosted
+       github_link = "https://..."      # optional: where the model source is hosted if different
+       license = "..."                  # optional: model license if known
 
 4. **Run it**: `uv run python -m efa.run --input ... --aligners <name>` to align and score
    just the new one against an existing run. If the env or a `needs` variable is missing, it
@@ -211,8 +214,8 @@ flattering. For numbers to quote, use its `held_out` figures.
 - `input`: where the gold set came from, including the exact Hub commit or file hash.
 - `producer`: this repo's git sha and the host it ran on.
 - `aligner_status`: for every aligner, one of ok, imported, unavailable, failed, or error.
-  It also records the reason, the clips that failed, and per-aligner provenance (device,
-  packages, host).
+  It also records the description, model link, github link, license (if known), the reason,
+  the clips that failed, and per-aligner provenance (device, packages, host).
 - `aligners`, `human_agreement`, `comparisons`, `clips`: the scores, in the same shape the
   tagging tool's aligner-eval viewer has always read.
 - `clip_data`: every clip's text, metadata, each annotator's words, and every aligner's
